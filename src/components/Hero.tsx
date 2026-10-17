@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { Sparkles, Heart } from 'lucide-react';
 import { FloatingPetals } from './FloatingPetals';
 import { getGuestDisplayName } from '../guest';
+import { LotusCluster, HangingOrnament, HeartFlourish } from './LotusDecor';
 
 export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,9 +29,16 @@ export const Hero: React.FC = () => {
           style={{ objectPosition: 'center 15%' }}
         />
         {/* Soft elegant gradient overlays to ensure text readability & premium feel */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory via-brand-ivory/50 to-brand-ivory/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory via-brand-ivory/55 to-brand-ivory/80" />
+        <div className="absolute inset-0 watercolor-wash opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-beige-deep/30 via-transparent to-brand-beige/20 mix-blend-overlay" />
       </motion.div>
+
+      {/* Lotus corners & hanging ornaments, as on the printed card */}
+      <LotusCluster className="absolute z-[6] -top-[3%] -left-[12%] sm:-left-[4%] w-[34vw] sm:w-[28vw] lg:w-[21vw] max-w-[340px] -rotate-6 drop-shadow-[0_6px_10px_rgba(180,55,109,0.15)]" />
+      <LotusCluster className="absolute z-[6] -bottom-[3%] -right-[10%] sm:-right-[4%] w-[56vw] sm:w-[36vw] lg:w-[28vw] max-w-[420px] -scale-x-100 drop-shadow-[0_6px_10px_rgba(180,55,109,0.15)]" />
+      <HangingOrnament className="absolute z-[6] top-0 right-[8%] w-5 sm:w-6 h-[28vh]" />
+      <HangingOrnament className="absolute z-[6] top-0 left-[38%] w-4 h-[16vh] opacity-70 hidden sm:block" />
 
       {/* Persistent subtle falling petals in background */}
       <div className="absolute inset-0 z-[5] opacity-60">
@@ -49,11 +57,7 @@ export const Hero: React.FC = () => {
           className="flex flex-col items-center"
         >
           {/* Subtle top decoration */}
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
-            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-l from-brand-beige-deep/60 to-transparent" />
-            <Heart className="w-5 h-5 text-brand-beige-deep/70 fill-brand-beige/20" />
-            <div className="h-[1px] w-12 sm:w-16 bg-gradient-to-r from-brand-beige-deep/60 to-transparent" />
-          </div>
+          <HeartFlourish className="w-40 sm:w-52 h-5 sm:h-6 mb-6 sm:mb-8" />
 
           <span className="text-brand-beige-deep uppercase tracking-[0.4em] sm:tracking-[0.6em] text-xs sm:text-sm font-medium mb-6 sm:mb-10 block drop-shadow-sm font-sans">
             The Celebration of Love

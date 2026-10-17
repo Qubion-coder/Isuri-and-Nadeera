@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getGuestDisplayName } from "../guest";
+import { LotusCluster, HangingOrnament, Mandala, HeartFlourish } from "./LotusDecor";
 
 export function EnvelopeOpening({ onComplete, onMusicStart }: { onComplete: () => void, onMusicStart?: () => void }) {
   const [opened, setOpened] = useState(false);
@@ -96,7 +97,6 @@ export function EnvelopeOpening({ onComplete, onMusicStart }: { onComplete: () =
         .card-container {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, #FFFFFF 0%, #FDF3F4 50%, #FFF7F8 100%);
           border-radius: 6px;
           z-index: 2;
           overflow: hidden;
@@ -130,18 +130,37 @@ export function EnvelopeOpening({ onComplete, onMusicStart }: { onComplete: () =
           border: 0.5px solid rgba(201,164,106,0.2);
         }
 
-        /* Corner Ornaments */
-        .corner-ornament {
+        /* Lotus artwork */
+        .card-lotus {
           position: absolute;
-          width: 60px;
-          height: 60px;
-          pointer-events: none;
-          z-index: 3;
+          width: 40%;
+          height: auto;
+          z-index: 1;
+          filter: drop-shadow(0 4px 6px rgba(180,55,109,0.12));
         }
-        .corner-tl { top: 10px; left: 10px; }
-        .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
-        .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
-        .corner-br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+        .card-lotus-tl { top: -6%; left: -9%; transform: rotate(-8deg); }
+        .card-lotus-br { bottom: -4%; right: -9%; transform: scaleX(-1) rotate(-4deg); }
+        .card-mandala {
+          position: absolute;
+          width: 46%;
+          left: -20%;
+          bottom: -16%;
+          z-index: 0;
+        }
+        .card-hanging {
+          position: absolute;
+          top: 0;
+          right: 6%;
+          width: 22px;
+          height: 34%;
+          z-index: 1;
+        }
+        .card-flourish {
+          width: 130px;
+          height: 16px;
+          margin: 4px 0 10px;
+          z-index: 2;
+        }
 
         /* Decorative Divider */
         .divider {
@@ -352,10 +371,6 @@ export function EnvelopeOpening({ onComplete, onMusicStart }: { onComplete: () =
           .text-ampersand {
             font-size: 32px;
           }
-          .corner-ornament {
-            width: 45px;
-            height: 45px;
-          }
           .card-border {
             padding: 30px 16px;
           }
@@ -377,47 +392,18 @@ export function EnvelopeOpening({ onComplete, onMusicStart }: { onComplete: () =
           <div className="envelope-base"></div>
 
           {/* Inner Card */}
-          <div className="card-container">
+          <div className="card-container paper-bg">
+            {/* Lotus & ornament artwork, as on the printed card */}
+            <LotusCluster className="card-lotus card-lotus-tl" />
+            <LotusCluster className="card-lotus card-lotus-br" />
+            <Mandala className="card-mandala" />
+            <HangingOrnament className="card-hanging" />
             <div className="card-border">
-              {/* 4 Corner Gold Ornaments */}
-              <svg className="corner-ornament corner-tl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5,5 L5,25 C5,15 15,5 25,5 L5,5 Z" fill="none" stroke="#C9A46A" strokeWidth="0.8" opacity="0.6"/>
-                <path d="M5,5 L5,18 C5,12 12,5 18,5 L5,5 Z" fill="#C9A46A" opacity="0.08"/>
-                <circle cx="5" cy="5" r="2" fill="#C9A46A" opacity="0.5"/>
-                <path d="M8,5 Q12,8 5,12" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4"/>
-                <path d="M5,8 Q8,12 12,5" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4" className="shimmer"/>
-              </svg>
-              <svg className="corner-ornament corner-tr" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5,5 L5,25 C5,15 15,5 25,5 L5,5 Z" fill="none" stroke="#C9A46A" strokeWidth="0.8" opacity="0.6"/>
-                <path d="M5,5 L5,18 C5,12 12,5 18,5 L5,5 Z" fill="#C9A46A" opacity="0.08"/>
-                <circle cx="5" cy="5" r="2" fill="#C9A46A" opacity="0.5"/>
-                <path d="M8,5 Q12,8 5,12" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4"/>
-                <path d="M5,8 Q8,12 12,5" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4" className="shimmer"/>
-              </svg>
-              <svg className="corner-ornament corner-bl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5,5 L5,25 C5,15 15,5 25,5 L5,5 Z" fill="none" stroke="#C9A46A" strokeWidth="0.8" opacity="0.6"/>
-                <path d="M5,5 L5,18 C5,12 12,5 18,5 L5,5 Z" fill="#C9A46A" opacity="0.08"/>
-                <circle cx="5" cy="5" r="2" fill="#C9A46A" opacity="0.5"/>
-                <path d="M8,5 Q12,8 5,12" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4"/>
-                <path d="M5,8 Q8,12 12,5" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4" className="shimmer"/>
-              </svg>
-              <svg className="corner-ornament corner-br" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5,5 L5,25 C5,15 15,5 25,5 L5,5 Z" fill="none" stroke="#C9A46A" strokeWidth="0.8" opacity="0.6"/>
-                <path d="M5,5 L5,18 C5,12 12,5 18,5 L5,5 Z" fill="#C9A46A" opacity="0.08"/>
-                <circle cx="5" cy="5" r="2" fill="#C9A46A" opacity="0.5"/>
-                <path d="M8,5 Q12,8 5,12" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4"/>
-                <path d="M5,8 Q8,12 12,5" stroke="#C9A46A" strokeWidth="0.5" fill="none" opacity="0.4" className="shimmer"/>
-              </svg>
-
               <div className="text-eyebrow">
                 {guestName ? `Dear ${guestName},` : 'Together With Our Families'}
               </div>
 
-              <div className="divider">
-                <div className="divider-line" />
-                <div className="divider-diamond" />
-                <div className="divider-line" />
-              </div>
+              <HeartFlourish className="card-flourish" />
 
               <h1 className="text-names">
                 Nadeera

@@ -73,3 +73,21 @@ html, body {
 .text-stone-400 {
   color: #5F7D52 !important; /* Lotus Leaf */
 }
+
+/* Blush watercolor paper (pink lotus card background) */
+.paper-bg {
+  background-color: #FCF4F1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.35 0 0 0 0 0.4 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 60% 40% at 92% 6%, rgba(240, 168, 190, 0.35), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 4% 55%, rgba(244, 190, 205, 0.28), transparent 70%),
+    radial-gradient(ellipse 55% 35% at 85% 95%, rgba(240, 168, 190, 0.3), transparent 70%),
+    linear-gradient(180deg, #FDF6F3 0%, #FBEFEE 100%);
+}
+
+.watercolor-wash {
+  background:
+    radial-gradient(ellipse 45% 35% at 90% 8%, rgba(236, 150, 180, 0.35), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 8% 88%, rgba(236, 150, 180, 0.3), transparent 70%),
+    radial-gradient(ellipse 35% 25% at 50% 50%, rgba(255, 255, 255, 0.35), transparent 70%);
+}

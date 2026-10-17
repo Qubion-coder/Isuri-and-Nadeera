@@ -12,6 +12,7 @@ import { Timeline } from './components/Timeline';
 import { Countdown } from './components/Countdown';
 import { RSVPForm } from './components/RSVPForm';
 import { WishesSection } from './components/WishesSection';
+import { LotusCluster, LotusDivider, Mandala } from './components/LotusDecor';
 
 export default function App() {
   const [showInvitation, setShowInvitation] = useState(false);
@@ -63,7 +64,7 @@ export default function App() {
   const weddingDate = new Date("2026-12-07T10:00:00+05:30");
 
   return (
-    <div className="font-sans text-stone-800 bg-brand-ivory overflow-hidden selection:bg-brand-beige-deep/20">
+    <div className="font-sans text-stone-800 paper-bg overflow-hidden selection:bg-brand-beige-deep/20">
       <Toaster position="top-center" />
       
       {/* Premium Floating Music Toggle */}
@@ -79,23 +80,31 @@ export default function App() {
 
       <Hero />
       
-      <div className="py-24 sm:py-32 bg-gradient-to-b from-brand-ivory via-white to-brand-ivory relative">
+      <div className="py-24 sm:py-32 relative">
         <CoupleDetails />
       </div>
 
-      <div className="py-24 sm:py-32 bg-white relative">
+      <LotusDivider />
+
+      <div className="py-24 sm:py-32 relative">
+        <Mandala className="absolute -left-24 top-10 w-72 h-72 opacity-70 hidden md:block" />
         <CeremonyDetails />
       </div>
 
-      <div className="py-24 sm:py-32 bg-gradient-to-b from-white via-brand-champagne/30 to-brand-ivory relative">
+      <LotusDivider />
+
+      <div className="py-24 sm:py-32 relative">
         <Location />
       </div>
 
-      <div className="py-24 sm:py-32 bg-brand-ivory relative">
+      <LotusDivider />
+
+      <div className="py-24 sm:py-32 relative overflow-hidden">
+        <LotusCluster className="absolute -bottom-6 -left-10 w-48 sm:w-64 opacity-90" />
         <Timeline />
       </div>
 
-      <div className="py-24 sm:py-32 bg-gradient-to-b from-white to-brand-ivory relative">
+      <div className="py-24 sm:py-32 relative">
           <div className="max-w-6xl mx-auto px-6 mb-16 text-center">
             <span className="text-brand-beige-deep uppercase tracking-[0.4em] text-[10px] sm:text-[11px] font-bold drop-shadow-sm">
               The Wait Is Almost Over
@@ -104,16 +113,23 @@ export default function App() {
           <Countdown targetDate={weddingDate} />
       </div>
 
-      <div className="py-24 sm:py-32 bg-brand-ivory relative">
+      <LotusDivider />
+
+      <div className="py-24 sm:py-32 relative overflow-hidden">
+        <LotusCluster className="absolute -bottom-6 -right-12 w-44 sm:w-60 -scale-x-100 opacity-90 hidden sm:block" />
         <RSVPForm />
       </div>
 
-      <div className="py-24 sm:py-32 bg-gradient-to-b from-brand-ivory to-white relative mt-10">
+      <LotusDivider />
+
+      <div className="py-24 sm:py-32 relative">
         <WishesSection />
       </div>
 
       {/* Elegant Footer Signature */}
-      <footer className="py-12 bg-white border-t border-brand-beige/20 text-center relative overflow-hidden mt-10">
+      <footer className="pt-16 pb-12 bg-white/50 border-t border-brand-beige/20 text-center relative overflow-hidden mt-10">
+        <LotusCluster className="absolute -bottom-6 -left-8 w-40 sm:w-56 opacity-90" />
+        <LotusCluster className="absolute -bottom-6 -right-8 w-40 sm:w-56 -scale-x-100 opacity-90" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-beige/10 blur-[80px] rounded-full pointer-events-none" />
         <Heart className="w-6 h-6 mx-auto mb-6 text-brand-beige-deep fill-brand-beige/20" />
         <p className="font-display text-4xl sm:text-5xl text-stone-800 mb-2">Nadeera &&nbsp;Isuri</p>
