@@ -2,15 +2,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Royal Maroon & Emerald Color Palette */
-  --color-brand-beige: #097969; /* Rich Emerald */
-  --color-brand-beige-deep: #722F37; /* Deep Maroon / Wine */
-  --color-brand-champagne: #FDFBF7; /* Ivory */
-  --color-brand-ivory: #FAF9F6; /* Cream */
-  --color-brand-gold: #D4AF37; /* Metallic Gold */
-  --color-brand-gold-light: #F3E5AB;
-  --color-brand-mocha: #3B1C22; /* Very dark maroon for text */
-  --color-brand-sand: #EAE3D2; /* Light Sand */
+  /* Pink Lotus Color Palette */
+  --color-brand-beige: #E48AAE; /* Lotus Pink */
+  --color-brand-beige-deep: #B4376D; /* Deep Rose / Magenta */
+  --color-brand-champagne: #FFF7F8; /* Petal White */
+  --color-brand-ivory: #FDF3F4; /* Blush Paper */
+  --color-brand-gold: #C9A46A; /* Soft Gold */
+  --color-brand-gold-light: #F3E3C3;
+  --color-brand-mocha: #4A2033; /* Deep plum for text */
+  --color-brand-sand: #F6E3E6; /* Light Blush */
+  --color-brand-leaf: #5F7D52; /* Lotus Leaf Green */
 
   --font-serif: "Cormorant Garamond", serif;
   --font-display: "Great Vibes", cursive;
@@ -67,8 +68,8 @@ html, body {
   color: var(--color-brand-mocha) !important;
 }
 .text-stone-500 {
-  color: #722F37 !important; /* Maroon */
+  color: #A0476F !important; /* Rose */
 }
 .text-stone-400 {
-  color: #097969 !important; /* Emerald */
+  color: #5F7D52 !important; /* Lotus Leaf */
 }

@@ -1,17 +1,23 @@
-1. Open your Google Sheet and create two tabs named RSVP and WISH.
-2. Open Extensions > Apps Script.
-3. Replace script content with code from google-apps-script/code.gs.
-4. Click Deploy > New deployment.
-5. Select type: Web app.
-6. Execute as: Me.
-7. Who has access: Anyone.
-8. Deploy and copy the Web App URL.
-9. In your project root, create a file named .env with:
+# Connect RSVP & Wishes to Google Sheets
 
-VITE_GOOGLE_APPS_SCRIPT_URL=YOUR_WEB_APP_URL
+Spreadsheet: https://docs.google.com/spreadsheets/d/1aS8-ZvXdzRaZvppUX7s16kPVb24SPjbiaVaWMW7BVYE/edit
 
-10. Restart Vite dev server.
+1. Open the spreadsheet > Extensions > Apps Script.
+2. Delete everything in Code.gs and paste the full contents of `code.ts`
+   (same as `google-apps-script/code.gs`). Save.
+3. In the function dropdown pick `setup` and click Run. Approve the
+   permissions. This creates the "RSVP" and "Wishes" sheets with headers
+   (they are also created automatically on the first submission).
+4. Deploy > New deployment > type: Web app
+   - Execute as: Me
+   - Who has access: Anyone
+5. Copy the Web App URL (ends with /exec).
+6. Paste it in `src/config.ts` in place of PASTE_YOUR_WEB_APP_URL_HERE
+   (or set VITE_GOOGLE_APPS_SCRIPT_URL in .env / Vercel env vars).
+7. Rebuild / redeploy the website.
 
-Notes:
-- If you update Apps Script code later, redeploy a new version.
-- The frontend sends RSVP to sheet RSVP and wishes to sheet WISH.
+Sheets created:
+- RSVP:   Timestamp | Full Name | Phone | Attending | Guests | Message / Notes
+- Wishes: Timestamp | Guest Name | Message
+
+If you change the script later: Deploy > Manage deployments > Edit > New version.

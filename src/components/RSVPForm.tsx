@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle, Loader2, Heart, Sparkles } from 'lucide-react';
+import { CheckCircle, Loader2, Heart, Sparkles, Phone } from 'lucide-react';
+import { toast } from 'sonner';
+import { postToSheet, RSVP_CONTACTS } from '../config';
+
+const emptyForm = {
+  fullName: '',
+  phone: '',
+  attendance: 'Yes',
+  guests: '1',
+  message: '',
+};
 
 export const RSVPForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    guests: '1',
-    dietaryNotes: '',
-  });
+  const [formData, setFormData] = useState(emptyForm);
+  const isAttending = formData.attendance === 'Yes';
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -15,25 +22,20 @@ export const RSVPForm: React.FC = () => {
     setStatus('loading');
 
     try {
-      const scriptUrl = 'https://script.google.com/macros/s/AKfycbyay20jbF63BRUj8JGGbUbYkYS3Us-DpLZc2Hs34si_qKJgxs_81xpNBniXsBNFsYOt7g/exec';
-      const payload = new FormData();
-      payload.append('sheet', 'RSVP');
-      payload.append('name', formData.fullName);
-      payload.append('guests', formData.guests);
-      payload.append('dietary', formData.dietaryNotes);
-      payload.append('attendance', 'Yes');
-
-      await fetch(scriptUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: payload,
+      await postToSheet('RSVP', {
+        name: formData.fullName.trim(),
+        phone: formData.phone.trim(),
+        attendance: formData.attendance,
+        guests: isAttending ? formData.guests : '0',
+        message: formData.message.trim(),
       });
 
       setStatus('success');
-      setFormData({ fullName: '', guests: '1', dietaryNotes: '' });
+      setFormData(emptyForm);
     } catch (error) {
       console.error('Error sending RSVP: ', error);
       setStatus('error');
+      toast.error('Could not send your RSVP. Please try again or call us.');
     }
   };
 
@@ -47,7 +49,7 @@ export const RSVPForm: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="glass p-10 sm:p-14 lg:p-16 rounded-[3rem] border border-white/40 shadow-[0_30px_60px_rgba(176,137,104,0.1)] relative overflow-hidden bg-white/60 backdrop-blur-3xl lg:flex items-center gap-16"
+        className="glass p-10 sm:p-14 lg:p-16 rounded-[3rem] border border-white/40 shadow-[0_30px_60px_rgba(180,55,109,0.1)] relative overflow-hidden bg-white/60 backdrop-blur-3xl lg:flex items-center gap-16"
       >
         {/* Soft top border line */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-brand-champagne via-brand-beige-deep/80 to-brand-champagne" />
@@ -68,10 +70,25 @@ export const RSVPForm: React.FC = () => {
           </h2>
           
           <p className="text-stone-500/90 font-serif text-lg leading-relaxed mb-6">
-            Your presence means the world to us. Please kindly let us know if you will be able to join our celebration.
+            Your presence will make our day even more special. Please kindly let us know if you will be able to join our celebration.
           </p>
 
-          <div className="w-12 h-[1px] bg-brand-beige/50 mx-auto lg:mx-0" />
+          <div className="w-12 h-[1px] bg-brand-beige/50 mx-auto lg:mx-0 mb-8" />
+
+          <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-stone-400 mb-4">Or call us</p>
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 items-center lg:items-start justify-center">
+            {RSVP_CONTACTS.map((c) => (
+              <a
+                key={c.name}
+                href={`tel:${c.phone.replace(/\s/g, '')}`}
+                className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/80 border border-brand-beige/40 shadow-sm hover:border-brand-beige-deep hover:shadow-md transition-all duration-300"
+              >
+                <Phone className="w-4 h-4 text-brand-beige-deep" />
+                <span className="font-serif text-lg text-stone-800">{c.name}</span>
+                <span className="font-sans text-sm tracking-wider text-stone-500">{c.phone}</span>
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Right Side: Flowing Form */}
@@ -85,8 +102,8 @@ export const RSVPForm: React.FC = () => {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="text-center py-16 px-8 bg-white/70 rounded-[2rem] border border-white shadow-xl"
               >
-                <div className="w-24 h-24 bg-green-50/80 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner border border-green-100">
-                  <CheckCircle className="w-12 h-12 text-green-500" />
+                <div className="w-24 h-24 bg-brand-sand/70 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner border border-brand-beige/30">
+                  <CheckCircle className="w-12 h-12 text-brand-beige-deep" />
                 </div>
                 <h3 className="text-4xl font-display text-stone-800 mb-4 tracking-tight drop-shadow-sm">With Gratitude</h3>
                 <p className="text-stone-500/90 leading-relaxed font-serif text-lg mb-8">
@@ -121,31 +138,69 @@ export const RSVPForm: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Number of Guests</label>
-                  <div className="relative group">
-                    <select
-                      className="w-full bg-white/80 px-6 py-4 rounded-full border border-stone-200/60 focus:ring-2 focus:ring-brand-beige/30 focus:border-brand-beige-deep/40 outline-none transition-all duration-300 appearance-none font-serif italic text-lg shadow-inner text-stone-700 cursor-pointer"
-                      value={formData.guests}
-                      onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                    >
-                      <option value="1">Just Me (1 Guest)</option>
-                      <option value="2">We are coming! (2 Guests)</option>
-                      <option value="3">3 Guests</option>
-                      <option value="4">4 Guests</option>
-                    </select>
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-brand-beige-deep transition-transform duration-300 group-hover:scale-110">
-                      <Heart className="w-5 h-5 fill-brand-beige/30 drop-shadow-sm" />
-                    </div>
-                  </div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Phone Number</label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="E.g., 07X XXX XXXX"
+                    className="w-full bg-white/80 px-6 py-4 rounded-full border border-stone-200/60 focus:ring-2 focus:ring-brand-beige/30 focus:border-brand-beige-deep/40 outline-none transition-all duration-300 font-serif italic text-lg shadow-inner placeholder:text-stone-300"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Dietary Notes (Optional)</label>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Will You Attend?</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { value: 'Yes', label: 'Joyfully Accept' },
+                      { value: 'No', label: 'Regretfully Decline' },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, attendance: opt.value })}
+                        className={`px-3 py-4 rounded-full border text-[10px] sm:text-[11px] uppercase tracking-[0.15em] font-bold transition-all duration-300 ${
+                          formData.attendance === opt.value
+                            ? 'bg-brand-beige-deep text-white border-brand-beige-deep shadow-md'
+                            : 'bg-white/80 text-brand-beige-deep border-stone-200/60 hover:border-brand-beige'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {isAttending && (
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Number of Guests</label>
+                    <div className="relative group">
+                      <select
+                        className="w-full bg-white/80 px-6 py-4 rounded-full border border-stone-200/60 focus:ring-2 focus:ring-brand-beige/30 focus:border-brand-beige-deep/40 outline-none transition-all duration-300 appearance-none font-serif italic text-lg shadow-inner text-stone-700 cursor-pointer"
+                        value={formData.guests}
+                        onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                      >
+                        <option value="1">Just Me (1 Guest)</option>
+                        <option value="2">We are coming! (2 Guests)</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                      </select>
+                      <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-brand-beige-deep transition-transform duration-300 group-hover:scale-110">
+                        <Heart className="w-5 h-5 fill-brand-beige/30 drop-shadow-sm" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-3 ml-2">Message (Optional)</label>
                   <textarea
-                    placeholder="We'd love to know if you have any allergies..."
+                    placeholder="Anything you'd like us to know..."
                     className="w-full bg-white/80 px-6 py-4 rounded-[2rem] border border-stone-200/60 focus:ring-2 focus:ring-brand-beige/30 focus:border-brand-beige-deep/40 outline-none transition-all duration-300 h-28 resize-none font-serif italic text-lg shadow-inner placeholder:text-stone-300"
-                    value={formData.dietaryNotes}
-                    onChange={(e) => setFormData({ ...formData, dietaryNotes: e.target.value })}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
 
@@ -153,12 +208,12 @@ export const RSVPForm: React.FC = () => {
                   <button
                     disabled={status === 'loading'}
                     type="submit"
-                    className="w-full bg-stone-800 text-brand-champagne py-5 rounded-full font-sans tracking-[0.3em] font-bold text-[11px] uppercase hover:bg-stone-900 transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-70"
+                    className="w-full bg-brand-beige-deep text-white py-5 rounded-full font-sans tracking-[0.3em] font-bold text-[11px] uppercase hover:bg-brand-mocha transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-70"
                   >
                     {status === 'loading' ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
-                      'Confirm Attendance'
+                      'Send RSVP'
                     )}
                   </button>
                 </div>

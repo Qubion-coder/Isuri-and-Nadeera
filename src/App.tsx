@@ -60,7 +60,7 @@ export default function App() {
   }
 
   // Set the wedding date for the countdown
-  const weddingDate = new Date("2027-01-05T09:00:00");
+  const weddingDate = new Date("2026-12-07T10:00:00+05:30");
 
   return (
     <div className="font-sans text-stone-800 bg-brand-ivory overflow-hidden selection:bg-brand-beige-deep/20">
@@ -72,7 +72,7 @@ export default function App() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1 }}
         onClick={toggleMusic}
-        className="fixed top-6 right-6 z-50 w-12 sm:w-14 h-12 sm:h-14 bg-white/70 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgba(176,137,104,0.15)] flex items-center justify-center border border-brand-beige/50 text-brand-beige-deep hover:scale-105 transition-all duration-300"
+        className="fixed top-6 right-6 z-50 w-12 sm:w-14 h-12 sm:h-14 bg-white/70 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgba(180,55,109,0.15)] flex items-center justify-center border border-brand-beige/50 text-brand-beige-deep hover:scale-105 transition-all duration-300"
       >
         {isMusicPlaying ? <Music className="w-5 h-5 sm:w-6 sm:h-6" /> : <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" />}
       </motion.button>
@@ -116,9 +116,9 @@ export default function App() {
       <footer className="py-12 bg-white border-t border-brand-beige/20 text-center relative overflow-hidden mt-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-beige/10 blur-[80px] rounded-full pointer-events-none" />
         <Heart className="w-6 h-6 mx-auto mb-6 text-brand-beige-deep fill-brand-beige/20" />
-        <p className="font-display text-4xl sm:text-5xl text-stone-800 mb-2">Isuri &&nbsp;Duvindu</p>
+        <p className="font-display text-4xl sm:text-5xl text-stone-800 mb-2">Nadeera &&nbsp;Isuri</p>
         <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.4em] font-sans text-stone-400 font-semibold block mb-8">
-          January 05, 2027
+          Monday · December 07, 2026
         </span>
 
       </footer>

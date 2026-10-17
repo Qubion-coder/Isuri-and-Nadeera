@@ -1,11 +1,34 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { MapPin, Navigation, Compass, Map } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { MapPin, Navigation, Compass, Map, Clock } from 'lucide-react';
+
+const venues = [
+  {
+    id: 'poruwa',
+    label: 'Poruwa Ceremony',
+    name: 'Kolonnawa Rajamaha Viharaya',
+    area: 'Kolonnawa',
+    time: '10:00 AM',
+    note: 'The sacred Poruwa ceremony, blessed in the serene grounds of the temple.',
+    mapQuery: 'Kolonnawa Rajamaha Viharaya',
+    liveLocationUrl: 'https://maps.app.goo.gl/YrRGwanaKGazEvbDA',
+  },
+  {
+    id: 'reception',
+    label: 'Reception',
+    name: 'Sanara Mandira',
+    area: 'Makola',
+    time: '11:30 AM Onwards',
+    note: 'Join us for the reception and celebratory lunch as we begin our new chapter together.',
+    mapQuery: 'Sanara Mandira Makola',
+    liveLocationUrl: 'https://maps.app.goo.gl/5LSudky2adgCYUBb9',
+  },
+];
 
 export const Location: React.FC = () => {
-  const venueAddress = "Hilton Colombo";
-  const mapUrl = `https://maps.google.com/maps?q=Hilton+Colombo&t=&z=14&ie=UTF8&iwloc=&output=embed`;
-  const liveLocationUrl = "https://maps.app.goo.gl/d7QQvgGSUQEUGNzx5";
+  const [activeId, setActiveId] = useState(venues[0].id);
+  const active = venues.find((v) => v.id === activeId) ?? venues[0];
+  const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(active.mapQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <div className="max-w-[85rem] mx-auto px-6 relative py-12">
@@ -13,56 +36,87 @@ export const Location: React.FC = () => {
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-radial from-brand-beige/20 to-transparent blur-3xl pointer-events-none -z-10" />
 
       <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-0 mt-10">
-        
+
         {/* Left Interactive Card */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full lg:w-[45%] z-20"
         >
-          <div className="bg-white/90 backdrop-blur-2xl p-10 sm:p-14 lg:p-16 rounded-[2.5rem] shadow-[0_30px_60px_rgba(176,137,104,0.15)] border border-brand-beige/30 lg:translate-x-12 relative overflow-hidden group">
-            
+          <div className="bg-white/90 backdrop-blur-2xl p-8 sm:p-14 lg:p-16 rounded-[2.5rem] shadow-[0_30px_60px_rgba(180,55,109,0.15)] border border-brand-beige/30 lg:translate-x-12 relative overflow-hidden group">
+
             {/* Elegant top border gradient */}
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-champagne via-brand-beige to-brand-beige-deep" />
-            
-            <div className="mb-10 relative z-10">
+
+            <div className="mb-4 relative z-10">
               <div className="inline-flex items-center gap-4 mb-6">
                 <span className="text-brand-beige-deep uppercase tracking-[0.5em] text-[10px] sm:text-[11px] font-bold drop-shadow-sm">
-                  The Venue
+                  The Venues
                 </span>
                 <div className="w-16 h-[1px] bg-gradient-to-r from-brand-beige-deep/60 to-transparent" />
               </div>
 
-              <h2 className="text-5xl sm:text-6xl font-display text-stone-800 mb-6 leading-tight drop-shadow-sm">
+              <h2 className="text-5xl sm:text-6xl font-display text-stone-800 mb-8 leading-tight drop-shadow-sm">
                 Where We <br />
                 <span className="italic font-light text-brand-beige-deep">Celebrate</span>
               </h2>
 
-              <div className="flex items-start gap-5 mt-10">
-                <div className="w-12 h-12 bg-stone-50 rounded-full border border-brand-beige/40 shadow-inner flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
-                  <MapPin className="text-brand-beige-deep w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-2xl font-serif text-stone-800 mb-1">Hilton Colombo</p>
-                  <p className="text-[11px] uppercase tracking-[0.2em] font-medium text-stone-400 leading-relaxed mb-6">Colombo</p>
-                  
-                  <p className="text-stone-500/90 italic font-serif text-lg leading-relaxed max-w-sm mb-10 pl-4 border-l-[1.5px] border-brand-beige/40">
-                    "A serene and elegant setting where we will begin our new chapter together."
-                  </p>
-
-                  <a
-                    href={liveLocationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-stone-800 text-brand-champagne px-8 py-4 rounded-full font-sans tracking-[0.2em] text-xs uppercase hover:bg-stone-900 hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-300 active:scale-95 group/btn"
+              {/* Venue switcher */}
+              <div className="flex gap-2 p-1.5 bg-brand-sand/60 rounded-full mb-8 border border-brand-beige/30">
+                {venues.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => setActiveId(v.id)}
+                    className={`flex-1 px-3 py-3 rounded-full text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 ${
+                      v.id === activeId
+                        ? 'bg-brand-beige-deep text-white shadow-md'
+                        : 'text-brand-beige-deep hover:bg-white/70'
+                    }`}
                   >
-                    <Navigation className="w-4 h-4 text-brand-gold group-hover/btn:rotate-45 transition-transform duration-300" />
-                    Open Live Location
-                  </a>
-                </div>
+                    {v.label}
+                  </button>
+                ))}
               </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex items-start gap-5"
+                >
+                  <div className="w-12 h-12 bg-brand-champagne rounded-full border border-brand-beige/40 shadow-inner flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                    <MapPin className="text-brand-beige-deep w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-serif text-stone-800 mb-1">{active.name}</p>
+                    <p className="text-[11px] uppercase tracking-[0.2em] font-medium text-stone-400 leading-relaxed mb-3">{active.area}</p>
+                    <p className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-brand-beige-deep mb-6">
+                      <Clock className="w-4 h-4" />
+                      {active.time}
+                    </p>
+
+                    <p className="text-stone-500/90 italic font-serif text-lg leading-relaxed max-w-sm mb-10 pl-4 border-l-[1.5px] border-brand-beige/40">
+                      "{active.note}"
+                    </p>
+
+                    <a
+                      href={active.liveLocationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 bg-brand-beige-deep text-white px-8 py-4 rounded-full font-sans tracking-[0.2em] text-xs uppercase hover:bg-brand-mocha hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-300 active:scale-95 group/btn"
+                    >
+                      <Navigation className="w-4 h-4 text-brand-gold-light group-hover/btn:rotate-45 transition-transform duration-300" />
+                      Open Live Location
+                    </a>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Faint background compass icon */}
@@ -71,21 +125,22 @@ export const Location: React.FC = () => {
         </motion.div>
 
         {/* Right Stunning Map Frame */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-          className="w-full lg:w-[65%] h-[500px] sm:h-[600px] lg:h-[700px] relative z-10"
+          className="w-full lg:w-[65%] h-[450px] sm:h-[600px] lg:h-[700px] relative z-10"
         >
           <div className="absolute -inset-4 sm:-inset-6 border-[2px] border-brand-beige/30 rounded-[3rem] -z-10 translate-x-2 sm:translate-x-4 translate-y-2 sm:translate-y-4" />
-          
+
           <div className="w-full h-full rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-[8px] sm:border-[12px] border-white relative group/map">
             {/* Map Placeholder Masking for premium feel */}
             <div className="absolute inset-0 bg-brand-beige/10 mix-blend-multiply pointer-events-none z-20 group-hover/map:opacity-0 transition-opacity duration-1000" />
-            
+
             <iframe
-              title="Hilton Colombo Location"
+              key={active.id}
+              title={`${active.name} Location`}
               src={mapUrl}
               width="100%"
               height="100%"
@@ -99,7 +154,7 @@ export const Location: React.FC = () => {
             {/* Decorative Location Pin Overlay */}
             <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-brand-beige/30 shadow-lg flex items-center gap-2 pointer-events-none z-30">
               <Map className="w-4 h-4 text-brand-beige-deep animate-pulse" />
-              <span className="text-[9px] uppercase tracking-widest font-bold text-stone-600">Live Map</span>
+              <span className="text-[9px] uppercase tracking-widest font-bold text-stone-600">{active.label}</span>
             </div>
           </div>
         </motion.div>
