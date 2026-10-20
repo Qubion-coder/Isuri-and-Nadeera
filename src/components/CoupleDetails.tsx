@@ -27,13 +27,13 @@ export const CoupleDetails: React.FC = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-8 relative z-10">
-        {/* Groom Details (Left on Desktop, Bottom on Mobile) */}
+        {/* Groom Details (Left on Desktop, first on Mobile) */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="text-center lg:text-right flex-1 lg:pr-10 order-4 lg:order-1"
+          className="text-center lg:text-right flex-1 lg:pr-10 order-2 lg:order-1"
         >
           <div className="mb-4 flex flex-col items-center lg:items-end">
             <span className="text-brand-beige-deep uppercase tracking-[0.4em] text-[10px] font-bold mb-3 block">The Groom</span>
@@ -76,7 +76,7 @@ export const CoupleDetails: React.FC = () => {
           <Sparkles className="absolute bottom-10 -right-4 w-6 h-6 text-brand-beige animate-pulse delay-300 drop-shadow-sm z-20" />
         </motion.div>
 
-        {/* Mobile divider between image and groom */}
+        {/* Mobile divider between groom and bride */}
         <div className="lg:hidden order-3 w-full flex justify-center py-4 opacity-50">
           <div className="w-1/2 h-px bg-gradient-to-r from-transparent via-brand-beige-deep/40 to-transparent" />
         </div>
@@ -87,7 +87,7 @@ export const CoupleDetails: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-          className="text-center lg:text-left flex-1 lg:pl-10 order-2 lg:order-3"
+          className="text-center lg:text-left flex-1 lg:pl-10 order-4 lg:order-3"
         >
           <div className="mb-4 flex flex-col items-center lg:items-start">
             <span className="text-brand-beige-deep uppercase tracking-[0.4em] text-[10px] font-bold mb-3 block">The Bride</span>
